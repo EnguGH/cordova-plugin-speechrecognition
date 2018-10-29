@@ -109,7 +109,12 @@
 
                 NSLog(@"startListening() recognitionTask result array: %@", transcriptions.description);
 
-                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:transcriptions];
+                NSDictionary *answer = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        transcriptions, @"matches",
+                                        [NSNumber numberWithBool:(result.isFinal ? YES : NO)], @"isFinal",
+                                        nil];
+
+                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:answer];
                 if (showPartial){
                     [pluginResult setKeepCallbackAsBool:YES];
                 }
